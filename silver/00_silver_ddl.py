@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "6"
+# ///
 # MAGIC %sql
 # MAGIC
 # MAGIC
@@ -133,3 +137,30 @@
 # MAGIC ADD CONSTRAINT fk_occupancy_post
 # MAGIC FOREIGN KEY (post_id) REFERENCES pep_dev.silver.post(post_id);
 # MAGIC
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE TABLE IF NOT EXISTS pep_dev.silver.legal_entity
+# MAGIC (
+# MAGIC     canonical_id STRING NOT NULL PRIMARY KEY,
+# MAGIC     entity_type STRING NOT NULL,
+# MAGIC     name STRING ,
+# MAGIC     alt_names ARRAY<STRING> ,
+# MAGIC     country STRING ,
+# MAGIC     legal_form STRING, 
+# MAGIC     incorporation_date DATE,
+# MAGIC     dissolution_date DATE,
+# MAGIC     is_dissolved BOOLEAN NOT NULL, -- Never keep it unknown (true/false only)
+# MAGIC     inn_codes ARRAY<STRING>,
+# MAGIC     ogrn_codes ARRAY<STRING>,
+# MAGIC     registration_numbers ARRAY<STRING>,
+# MAGIC     tax_numbers ARRAY<STRING>,
+# MAGIC     lei_codes ARRAY<STRING>,
+# MAGIC     topics ARRAY<STRING>,
+# MAGIC     is_sanctioned BOOLEAN NOT NULL, -- Never keep it unknown (true/false only)
+# MAGIC     datasets ARRAY<STRING> NOT NULL,
+# MAGIC     _first_seen_snapshot STRING NOT NULL,
+# MAGIC     _last_seen_snapshot STRING NOT NULL
+# MAGIC
+# MAGIC ) 
