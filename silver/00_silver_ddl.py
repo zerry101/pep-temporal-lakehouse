@@ -144,23 +144,23 @@
 # MAGIC CREATE TABLE IF NOT EXISTS pep_dev.silver.legal_entity
 # MAGIC (
 # MAGIC     canonical_id STRING NOT NULL PRIMARY KEY,
-# MAGIC     entity_type STRING NOT NULL,
-# MAGIC     name STRING ,
-# MAGIC     alt_names ARRAY<STRING> ,
-# MAGIC     country STRING ,
-# MAGIC     legal_form STRING, 
-# MAGIC     incorporation_date DATE,
-# MAGIC     dissolution_date DATE,
-# MAGIC     is_dissolved BOOLEAN NOT NULL, -- Never keep it unknown (true/false only)
-# MAGIC     inn_codes ARRAY<STRING>,
-# MAGIC     ogrn_codes ARRAY<STRING>,
-# MAGIC     registration_numbers ARRAY<STRING>,
-# MAGIC     tax_numbers ARRAY<STRING>,
-# MAGIC     lei_codes ARRAY<STRING>,
-# MAGIC     topics ARRAY<STRING>,
-# MAGIC     is_sanctioned BOOLEAN NOT NULL, -- Never keep it unknown (true/false only)
-# MAGIC     datasets ARRAY<STRING> NOT NULL,
-# MAGIC     _first_seen_snapshot STRING NOT NULL,
-# MAGIC     _last_seen_snapshot STRING NOT NULL
+# MAGIC     entity_type STRING NOT NULL,-- schema
+# MAGIC     name STRING , -- value where prop = 'name'
+# MAGIC     alt_names ARRAY<STRING> , -- value where prop in (name, alias, previousName, weakAlias)
+# MAGIC     country STRING, -- value where prop = jurisdiction, else country, else mainCountry
+# MAGIC     legal_form STRING,  --  value where prop = 'legalForm'
+# MAGIC     incorporation_date DATE, -- value where prop = 'incorporationDate'
+# MAGIC     dissolution_date DATE, --prop = 'dissolutionDate'
+# MAGIC     is_dissolved BOOLEAN NOT NULL,  -- derived: dissolution_date before snapshot date (true/false only)
+# MAGIC     inn_codes ARRAY<STRING>, -- value where prop = 'innCode' 
+# MAGIC     ogrn_codes ARRAY<STRING>,-- value where prop = 'ogrnCode'
+# MAGIC     registration_numbers ARRAY<STRING>, -- value where prop = 'registrationNumber'
+# MAGIC     tax_numbers ARRAY<STRING>,-- value where prop = 'taxNumber'
+# MAGIC     lei_codes ARRAY<STRING>,--   value where prop = 'leiCode'
+# MAGIC     topics ARRAY<STRING>,-- value where prop = 'topics'
+# MAGIC     is_sanctioned BOOLEAN NOT NULL, -- derived: topics contains 'sanction' (true/false only)
+# MAGIC     datasets ARRAY<STRING> NOT NULL,-- dataset, collected
+# MAGIC     _first_seen_snapshot STRING NOT NULL, --  MIN(_snapshot_version) on first insert, never updated
+# MAGIC     _last_seen_snapshot STRING NOT NULL-- MAX(_snapshot_version), updated each run
 # MAGIC
 # MAGIC ) 
