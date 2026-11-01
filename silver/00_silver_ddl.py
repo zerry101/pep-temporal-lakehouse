@@ -163,4 +163,27 @@
 # MAGIC     _first_seen_snapshot STRING NOT NULL, --  MIN(_snapshot_version) on first insert, never updated
 # MAGIC     _last_seen_snapshot STRING NOT NULL-- MAX(_snapshot_version), updated each run
 # MAGIC
-# MAGIC ) 
+# MAGIC ) USING DELTA;
+
+# COMMAND ----------
+
+# MAGIC     %sql
+# MAGIC     CREATE TABLE IF NOT EXISTS pep_dev.silver.ownership (
+# MAGIC         ownership_id  STRING NOT NULL PRIMARY KEY,
+# MAGIC         owner_ref STRING NOT NULL,
+# MAGIC         asset_ref STRING NOT NULL,
+# MAGIC         owner_id STRING NOT NULL,
+# MAGIC         asset_id STRING NOT NULL,
+# MAGIC         owner_type  STRING ,
+# MAGIC         asset_type STRING ,
+# MAGIC         pct_min DOUBLE,
+# MAGIC         pct_max DOUBLE,
+# MAGIC         start_date DATE,
+# MAGIC         end_date DATE,
+# MAGIC         is_current BOOLEAN NOT NULL,
+# MAGIC         is_self_owning BOOLEAN NOT NULL,
+# MAGIC         datasets ARRAY<STRING> NOT NULL,
+# MAGIC         _first_seen_snapshot STRING NOT NULL,
+# MAGIC         _last_seen_snapshot STRING NOT NULL
+# MAGIC     ) 
+# MAGIC     USING DELTA;
